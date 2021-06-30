@@ -347,11 +347,10 @@ def test_plot_peierls1():
 def test_plot_peierls_hansen19():
     # test using implementation from Hansen etal 2019
     # this function reproduces fig 8 from the paper
-    P = 0.0  # no dependence on P
     T = 298  # room temperature
     edot = 1e-5  # guessed
     ds = 10**np.linspace(-2, 5, 100) * 1e-6
-    viscs = flf.peierls_hansen19_visc(P,T,edot,ds, sigma_b = 1.8e9)
+    viscs = flf.peierls_hansen19_visc(T,edot,ds, sigma_b = 1.8e9)
     stresses = 2 * viscs * edot
     std = np.array([[-0.9861750909741067, 0.9732704402515723],
      [-0.8179781662144259, 0.9150943396226414],
@@ -388,10 +387,9 @@ def test_plot_peierls_hansen19():
     ax1.set_title('fig 8')
     pdffile = os.path.join(test_dir, 'peierls_hansen19.pdf')
     # fig 10,c (temperature dependence)
-    P = 0
     Ts = np.linspace(200.0, 1000.0, 100)
     d = 0.01  # 1 cm
-    viscs = flf.peierls_hansen19_visc(P,Ts,edot,d, sigma_b=0.0)  # sigma_b = 0, corresponding to epsl = 0.0
+    viscs = flf.peierls_hansen19_visc(Ts,edot,d, sigma_b=0.0)  # sigma_b = 0, corresponding to epsl = 0.0
     stresses = 2 * viscs * edot
     std = np.array([[344.146218960934, 2.2154696132596685],
     [576.6130514142911, 1.541436464088398],

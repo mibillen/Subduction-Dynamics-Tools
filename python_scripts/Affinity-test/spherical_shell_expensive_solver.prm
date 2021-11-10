@@ -1,0 +1,98 @@
+# Listing of Parameters
+
+set Dimension                              = 3
+set Timing output frequency                = 1
+set Output directory                       = OUTPUT_DIRECTORY
+
+subsection Termination criteria
+  set End step                             = 1
+  set Termination criteria                 = end step
+end
+
+subsection Mesh refinement
+  set Coarsening fraction                      = 0
+  set Refinement fraction                      = 0
+
+  set Initial adaptive refinement              = 0
+  set Initial global refinement                = RESOLUTION
+end
+
+subsection Compositional fields
+  set Number of fields          = 1
+end
+
+subsection Initial composition model
+  set Model name = function
+
+  subsection Function
+    set Function expression = sqrt(x*x+y*y+z*z)
+    set Variable names      =  x,y,z
+  end
+end
+
+subsection Initial temperature model
+  set Model name = harmonic perturbation
+
+  subsection Harmonic perturbation
+    set Magnitude = 200.0
+  end
+
+end
+
+# subsection Boundary temperature model
+#  set List of model names = initial temperature
+
+#  subsection Initial temperature
+#    set Maximal temperature = 1800
+#    set Minimal temperature = 1400
+#  end
+
+# end
+
+subsection Geometry model
+  set Model name = spherical shell 
+
+  subsection Spherical shell
+    set Opening angle = 360
+  end
+
+end
+
+subsection Gravity model
+  set Model name = radial constant 
+
+  subsection Radial constant
+    set Magnitude = 10
+  end
+
+end
+
+subsection Material model
+
+  set Model name = simple 
+
+  subsection Simple model
+    set Viscosity = 1e22
+    set Thermal viscosity exponent = 9.0
+    set Reference temperature = 1600
+  end
+
+end
+
+# The parameters below this comment were created by the update script
+# as replacement for the old 'Model settings' subsection. They can be
+# safely merged with any existing subsections with the same name.
+
+subsection Boundary velocity model
+  set Tangential velocity boundary indicators = 0,1
+end
+
+subsection Postprocess
+  set List of postprocessors = velocity statistics, temperature statistics
+end
+
+subsection Solver parameters
+  subsection Stokes solver parameters
+    set Number of cheap Stokes solver steps = 0
+  end
+end

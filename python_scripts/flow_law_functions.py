@@ -191,7 +191,7 @@ def get_disl_KAW09_params(water,mod,Edev,Vdev):
         r = 0
         n = 3.5
         dn = 0.3
-        A = 1.1e5 # MPa^(-n-r) * s^-1 (=10^5.04)
+        A = 1.1e5 # MPa^(-n-r) * s^-1Scaling of edot/A * np.exp(Delta_F/(R*T)) term in the sinh function  (=10^5.04)
         E = 530e3      # J/mol 
         V = 17e-6   # m^3/mol, from Kawazoe etal., 2009            
         dE = 4e3      # error on activation energy
@@ -366,11 +366,40 @@ def peierls_hansen19_visc(T,edot,d, **kwargs):
 # Mk 10 and hansen 19 are included
 # MK 10 has a free parameter gam
 # Hansen 19 has a free parameter sigma_b, which is actually strain-dependent
-def plot_peierls_hansen19_visc(d, **kwargs):
+def plot_peierls_hansen19_visc(**kwargs):
+    def plot_temperature_grain_size(ax, P, T, d, edots, dislocation_creep, gam):
+	# define this function to plot some temperature and grain size
+        eta_disls = rheology_haoyuan_2021.CreepRheology(dislocation_creep, edots, P, T, use_effective_strain_rate=True)
+        stress_disls = 2 * eta_disls * edots
+        ax.loglog(edots, stress_disls, 'b--', label='dislocation creep')  # plot
+        # compute viscosity from Hansoen 1
+        sigma_b = 0.0
+        eta_peierls_0 = peierls_hansen19_visc(T,edots,d, sigma_b=sigma_b)  # sigma_b = 0, corresponding to epsl = 0.0
+        stress_peierls_0 = 2 * eta_peierls_0 * edots
+        ax.loglog(edots, stress_peierls_0, 'r-', label='Hansen 19, sigma_b = %.1e Pa' % sigma_b)
+        sigma_b = 1e9
+        eta_peierls_1 = peierls_hansen19_visc(T,edots,d, sigma_b=sigma_b)  # sigma_b = 1 GPa, middle value
+        stress_peierls_1 = 2 * eta_peierls_1 * edots
+        ax.loglog(edots, stress_peierls_1, 'r--', label='Hansen 19, sigma_b = %.1e Pa' % sigma_b)
+        sigma_b = 1.8e9
+        eta_peierls_2 = peierls_hansen19_visc(T,edots,d, sigma_b=sigma_b)  # sigma_b = 1.8 GPa, largest value
+        stress_peierls_2 = 2 * eta_peierls_2 * edots
+        ax.loglog(edots, stress_peierls_2, 'r-.', label='Hansen 19, sigma_b = %.1e Pa' % sigma_b)
+        # compute viscosity from Mei & K 10
+        eta_MKs = peierls_approx_visc('MK10',gam,P,T,edots)
+        stress_MKs = 2 * eta_MKs * edots
+        ax.loglog(edots, stress_MKs, 'g-', label='M&K 10, gam = %.2f' % gam)
+        # plot
+        ax.set_xlabel('Strain rate [s^-1]')
+        ax.set_ylabel('Stress [Pa]')
+        ax.set_title('T = %.1f K, d = %.1e' % (T, d))
+        ax.grid()
+        ax.legend()
+
     # compute dislocation creep rheology
     R = 8.314
     P = 1e9
-    edots = 10**np.linspace(-18, -5, 100)
+    edots = 10**np.linspace(-18, -11, 100)
     # get rheology for modified wet rheology
     # with a little deviation from the central values(E, V)
     dEdiff = -25e3  # -50 - 50e3
@@ -385,65 +414,24 @@ def plot_peierls_hansen19_visc(d, **kwargs):
     dislocation_creep['E'] += dEdisl
     diffusion_creep['V'] += dVdiff
     dislocation_creep['V'] += dVdisl
-    fig = plt.figure(figsize=(5, 15))  # initiate plot
+    fig = plt.figure(figsize=(15, 15))  # initiate plot
     
+    axs = fig.subplots(3,3)
+    # 700 K
+    d = 1e-2
+    T = 700
+    plot_temperature_grain_size(axs[0,0], P, T, d, edots, dislocation_creep, gam)
+
     # 900 K
     T = 900
-    eta_disls = rheology_haoyuan_2021.CreepRheology(dislocation_creep, edots, P, T, use_effective_strain_rate=True)
-    stress_disls = eta_disls * edots
-    # compute viscosity from Hansoen 19
-    eta_peierls = peierls_hansen19_visc(T,edots,d, sigma_b=sigma_b)  # sigma_b = 0, corresponding to epsl = 0.0
-    stress_peierls = eta_peierls * edots
-    # compute viscosity from Mei & K 10
-    eta_MKs = peierls_approx_visc('MK10',gam,P,T,edots)
-    stress_MKs = eta_MKs * edots
-    # plot
-    ax0 = fig.add_subplot(3,1,1)
-    ax0.loglog(edots, stress_disls, 'b--', label='dislocation creep')
-    ax0.loglog(edots, stress_peierls, 'r-', label='Hansen 19, sigma_b = %.1e Pa' % sigma_b)
-    ax0.loglog(edots, stress_MKs, 'g-', label='M&K 10, gam = %.2f' % gam)
-    ax0.set_title('T = %.1f K' % T)
-    ax0.grid()
-    ax0.legend()
-
+    plot_temperature_grain_size(axs[0,1], P, T, d, edots, dislocation_creep, gam)
+    
     # 1100 K
     T = 1100
-    eta_disls = rheology_haoyuan_2021.CreepRheology(dislocation_creep, edots, P, T, use_effective_strain_rate=True)
-    stress_disls = eta_disls * edots
-    # compute viscosity from Hansoen 19
-    eta_peierls = peierls_hansen19_visc(T,edots,d, sigma_b=sigma_b)  # sigma_b = 0, corresponding to epsl = 0.0
-    stress_peierls = eta_peierls * edots
-    # compute viscosity from Mei & K 10
-    eta_MKs = peierls_approx_visc('MK10',gam,P,T,edots)
-    stress_MKs = eta_MKs * edots
-    # plot
-    ax1 = fig.add_subplot(3,1,2)
-    ax1.loglog(edots, stress_disls, 'b--', label='dislocation creep')
-    ax1.loglog(edots, stress_peierls, 'r-', label='Hansen 19, sigma_b = %.1e Pa' % sigma_b)
-    ax1.loglog(edots, stress_MKs, 'g-', label='M&K 10, gam = %.2f' % gam)
-    ax1.set_title('T = %.1f K' % T)
-    ax1.grid()
-    ax1.legend()
+    plot_temperature_grain_size(axs[0,2], P, T, d, edots, dislocation_creep, gam)
     
-    # 1300 K
-    T = 1300
-    eta_disls = rheology_haoyuan_2021.CreepRheology(dislocation_creep, edots, P, T, use_effective_strain_rate=True)
-    stress_disls = 2 * eta_disls * edots
-    # compute viscosity from Hansoen 19
-    eta_peierls = peierls_hansen19_visc(T,edots,d, sigma_b=sigma_b)  # sigma_b = 0, corresponding to epsl = 0.0
-    stress_peierls = 2* eta_peierls * edots
-    # compute viscosity from Mei & K 10
-    eta_MKs = peierls_approx_visc('MK10',gam,P,T,edots)
-    stress_MKs = eta_MKs * edots
-    # plot
-    ax2 = fig.add_subplot(3,1,3)
-    ax2.loglog(edots, stress_disls, 'b--', label='dislocation creep')
-    ax2.loglog(edots, stress_peierls, 'r-', label='Hansen 19, sigma_b = %.1e Pa' % sigma_b)
-    ax2.loglog(edots, stress_MKs, 'g-', label='M&K 10, gam = %.2f' % gam)
-    ax2.set_title('T = %.1f K' % T)
-    ax2.grid()
-
     # save figure
+    fig.tight_layout()
     pdffile = os.path.join(output_dir, 'hansen19_dislocation_creep.pdf')
     fig.savefig(pdffile, bbox_inches='tight')
     
@@ -474,9 +462,7 @@ def main():
     if _commend == 'plot_hansen19_dislocation':
         # plot peierls rheology with dislocation creep
 	# Mk 10 and hansen 19 are included	    
-        edot = 1e-15
-        d = 0.01
-        plot_peierls_hansen19_visc(d, sigma_b=1e9)
+        plot_peierls_hansen19_visc(sigma_b=1e9)
 
 # run script
 if __name__ == '__main__':

@@ -1,0 +1,19 @@
+\begin{thebibliography}{3}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Batchelor(1967)}]{batchelor_book67}
+Batchelor, G.~K., 1967. {An Introduction to Fluid Dynamics}. Cambridge
+  University Press, Cambridge, UK.
+
+\bibitem[{McKenzie(1969)}]{mckenzie_gjras69}
+McKenzie, D.~P., 1969. Speculations on the consequences and causes of plate
+  motions. Geophys. J. Royal Astron. Soc. 18, 1--32.
+
+\bibitem[{Stevenson and Turner(1977)}]{stevenson_turner_nature77}
+Stevenson, D.~J., Turner, J.~S., 1977. Angle of subduction. Nature 270,
+  334--336.
+
+\end{thebibliography}

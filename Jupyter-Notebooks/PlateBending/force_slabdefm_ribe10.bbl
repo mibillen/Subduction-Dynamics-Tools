@@ -1,0 +1,11 @@
+\begin{thebibliography}{1}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Ribe(2010)}]{ribe_gji10}
+Ribe, N.~M., 2010. Bending mechanics and mode selection in free subduction: a
+  thin-sheet analysis. Geophys. J. Int. 180, 559--576.
+
+\end{thebibliography}

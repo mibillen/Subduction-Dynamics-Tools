@@ -1,0 +1,601 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    \usepackage{natbib}
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{Plate Bending Force}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{force-due-to-bending-in-the-slab}{%
+\section{Force due to bending in the
+slab}\label{force-due-to-bending-in-the-slab}}
+
+Here I compare different approaches for calculating the force due to
+bending of a slab. In particular, I compare a standard approach using a
+constant bending length, to the calculation from \citet{ribe_gji10}.\\
+\ \\
+Professor Magali Billen\\
+ Earth and Planetary Sciences \\
+ UC Davis \\
+ February 15, 2018 
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}
+        \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+        \PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+        
+        \PY{c+c1}{\PYZsh{} Conversion Factors}
+        \PY{n}{sec2yr} \PY{o}{=} \PY{l+m+mi}{60}\PY{o}{*}\PY{l+m+mi}{60}\PY{o}{*}\PY{l+m+mi}{24}\PY{o}{*}\PY{l+m+mi}{365}  \PY{c+c1}{\PYZsh{} sec to yr}
+        \PY{n}{d2r} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{/}\PY{l+m+mi}{180}
+        
+        \PY{n}{dip} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{l+m+mi}{90}\PY{p}{,}\PY{l+m+mi}{25}\PY{p}{,}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{p}{)}
+        \PY{n}{dips} \PY{o}{=} \PY{l+m+mi}{30}  \PY{c+c1}{\PYZsh{} shallow slab dip for constand calculation}
+        
+        \PY{n}{wslab} \PY{o}{=} \PY{l+m+mi}{100}\PY{o}{*}\PY{l+m+mi}{1000}\PY{p}{;} \PY{c+c1}{\PYZsh{} m}
+        \PY{n}{wcrt} \PY{o}{=} \PY{l+m+mf}{7.5}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1000}\PY{p}{)}  \PY{c+c1}{\PYZsh{} m}
+        
+        \PY{n}{Lslab} \PY{o}{=} \PY{l+m+mf}{500e3}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{dip}\PY{o}{*}\PY{n}{d2r}\PY{p}{)}  \PY{c+c1}{\PYZsh{} dip of 50 degrees to get slab length }
+        \PY{n}{Lbend} \PY{o}{=} \PY{l+m+mf}{100e3}\PY{o}{/}\PY{n}{np}\PY{o}{.}\PY{n}{sin}\PY{p}{(}\PY{n}{dips}\PY{o}{*}\PY{n}{d2r}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} sinking velocity of the slab}
+        \PY{n}{vsink} \PY{o}{=} \PY{l+m+mi}{5}\PY{o}{/}\PY{l+m+mi}{100}\PY{o}{/}\PY{n}{sec2yr}  
+        
+        \PY{c+c1}{\PYZsh{} Viscosity of the slab\PYZhy{}mantle}
+        \PY{n}{etaslabm} \PY{o}{=} \PY{l+m+mf}{1e19}  \PY{c+c1}{\PYZsh{} Pa\PYZhy{}s}
+        
+        \PY{c+c1}{\PYZsh{} Slab viscosity}
+        \PY{n}{etaslabmax} \PY{o}{=} \PY{l+m+mf}{1e24}
+        \PY{n}{etabend} \PY{o}{=} \PY{l+m+mf}{1e22}
+\end{Verbatim}
+
+
+    \hypertarget{force-due-to-bending}{%
+\subsection{Force due to Bending}\label{force-due-to-bending}}
+
+Assuming a thin viscous sheet, the force due to internal bending can be
+found from the Moment.
+\[ F_{bend} = \eta_{bend} w_{slab}^3 V_{slab}/L_{bend}^3\] Below I
+assume that \(L_{bend}\) is equal to the length of the shear zone.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n}{Fbend1} \PY{o}{=} \PY{n}{etabend}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{p}{(}\PY{n}{Lbend}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{wslab}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{,}\PY{n}{Lbend}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{)}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fbend}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}\PY{n}{Fbend1}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x1e13 N/m}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+100.0 200.00000000000003
+Fbend 0.1981861998985286 x1e13 N/m
+
+    \end{Verbatim}
+
+    \hypertarget{force-due-to-internal-deformation-of-the-slab}{%
+\subsection{Force due to internal deformation of the
+slab}\label{force-due-to-internal-deformation-of-the-slab}}
+
+From  \citet{ribe_gji10}, the bending force is
+\[ F_{bend} = \eta_{bend} w_{slab}^3 V_{slab}/l_b^3\]
+
+Note \(l_b\) replaces what others would use as the radius of curvature
+for the shallow part of the slab. The ``effective'' bending length comes
+from Ribe's analysis: \[ l_b = A l_o + B L_{slab}\] where A = 3.39, B =
+0.58 to 0.82 and
+\[ l_o = \left(\frac{\gamma w_{slab}^3 w_{crt}^3}{9}\right)^{1/6} \]
+where \(\gamma = \eta_{bend}/\eta_{slab-m}\)
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{c+c1}{\PYZsh{} Look at a range of slab viscosity (assumed constant for whole slab here) }
+        \PY{n}{etaslab} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{l+m+mf}{1e21}\PY{p}{,} \PY{l+m+mf}{5e21}\PY{p}{,} \PY{l+m+mf}{1e22}\PY{p}{,} \PY{l+m+mf}{5e22}\PY{p}{,} \PY{l+m+mf}{1e23}\PY{p}{,} \PY{l+m+mf}{5e23}\PY{p}{,} \PY{l+m+mf}{1e24}\PY{p}{]}\PY{p}{)}
+        
+        \PY{c+c1}{\PYZsh{} Viscosity ratio eta\PYZus{}slab/eta\PYZus{}mantle}
+        \PY{n}{gamma} \PY{o}{=} \PY{n}{etaslab}\PY{o}{/}\PY{n}{etaslabm}
+        
+        \PY{c+c1}{\PYZsh{} Determine effective bending lengthscale}
+        \PY{n}{lo} \PY{o}{=} \PY{p}{(}\PY{n}{gamma}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{wcrt}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{/}\PY{l+m+mi}{9}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{6}\PY{p}{)}
+        \PY{n}{A} \PY{o}{=} \PY{l+m+mf}{3.39}\PY{p}{;}
+        \PY{n}{B} \PY{o}{=} \PY{l+m+mf}{0.7}\PY{p}{;}  \PY{c+c1}{\PYZsh{} From range of 0.58 \PYZhy{} 0.82}
+        
+        \PY{n}{Fbend} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{n}{etaslab}\PY{p}{)}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{n}{dip}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{n+nb}{float}\PY{p}{)}
+        \PY{n}{Fbend1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{n}{etaslab}\PY{p}{)}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{n}{dip}\PY{p}{)}\PY{p}{)}\PY{p}{,}\PY{n+nb}{float}\PY{p}{)}
+        
+        \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,}\PY{n}{np}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{n}{etaslab}\PY{p}{)}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+            \PY{n}{lb} \PY{o}{=} \PY{n}{A}\PY{o}{*}\PY{n}{lo}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{+} \PY{n}{B}\PY{o}{*}\PY{n}{Lslab}
+            \PY{n}{Fbend}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{etaslab}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lb}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+            \PY{n}{Fbend1}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]} \PY{o}{=} \PY{n}{etaslab}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{o}{*}\PY{p}{(}\PY{l+m+mf}{0.5}\PY{o}{*}\PY{n}{wslab}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lb}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+        \PY{c+c1}{\PYZsh{}    print(Fbend[i,:])}
+        \PY{p}{[}\PY{n}{DIP}\PY{p}{,}\PY{n}{GAM}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{meshgrid}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{gamma}\PY{p}{)}
+        
+        \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{cf} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{contourf}\PY{p}{(}\PY{n}{GAM}\PY{p}{,}\PY{n}{DIP}\PY{p}{,}\PY{n}{Fbend}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s1}{/}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}m\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Internal Deformation Force (x1e13 N/m)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{colorbar}\PY{p}{(}\PY{n}{cf}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_5_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \hypertarget{with-dip-dependent-slab-viscosity}{%
+\subsection{With dip dependent slab viscosity
+?}\label{with-dip-dependent-slab-viscosity}}
+
+For shallow dipping slabs, the viscosity is just the maximum viscosity,
+there's no weakening. But for steeply dipping slabs, there is some
+weakening and the viscosity needs to drop. Here I approximate this
+weakening with the following equation:
+\[\eta_{bend} = \eta_{slab}/10^{[3 - (2 tan^{-1}(90-\theta)/90)]}\] For
+Ribe's formulation this also effects the effective bending length of the
+slab, which depends on \(\gamma = \eta_{slab}/\eta_{mantle}\).
+
+One can modify this equation depending on the amount of weakening. It
+also might jsut be better to use a simple linear relationship.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{n}{d2r} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{/}\PY{l+m+mi}{180}
+         \PY{n}{x} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{arctan}\PY{p}{(}\PY{l+m+mf}{1.4}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{90}\PY{o}{\PYZhy{}}\PY{n}{dip}\PY{p}{)}\PY{o}{*}\PY{n}{d2r}\PY{p}{)}
+         \PY{n}{etaslab1} \PY{o}{=} \PY{n}{etaslabmax}\PY{o}{/}\PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{x}
+         
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{x}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{etaslab1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s1}{\PYZdl{} (km)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_7_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{\PYZsh{} Dip dependent slab viscosity}
+         \PY{c+c1}{\PYZsh{} This reduces the effective slab viscosity for steep dips}
+         \PY{c+c1}{\PYZsh{} which is what we see in the models. }
+         
+         \PY{n}{etaslab1} \PY{o}{=} \PY{n}{etaslabmax}\PY{o}{/}\PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{3}\PY{o}{\PYZhy{}}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{arctan}\PY{p}{(}\PY{l+m+mi}{10}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{90}\PY{o}{\PYZhy{}}\PY{n}{dip}\PY{p}{)}\PY{o}{/}\PY{l+m+mi}{90}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{\PYZsh{} Viscosity ratio eta\PYZus{}slab/eta\PYZus{}mantle}
+         \PY{n}{gamma1} \PY{o}{=} \PY{n}{etaslab1}\PY{o}{/}\PY{n}{etaslabm}
+         \PY{n}{lo} \PY{o}{=} \PY{p}{(}\PY{n}{gamma1}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{wcrt}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{/}\PY{l+m+mi}{9}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{6}\PY{p}{)}
+         \PY{n}{A} \PY{o}{=} \PY{l+m+mf}{3.39}\PY{p}{;}
+         \PY{n}{B} \PY{o}{=} \PY{l+m+mf}{0.7}\PY{p}{;}  \PY{c+c1}{\PYZsh{} From range of 0.58 \PYZhy{} 0.82}
+         \PY{n}{lb} \PY{o}{=} \PY{n}{A}\PY{o}{*}\PY{n}{lo} \PY{o}{+} \PY{n}{B}\PY{o}{*}\PY{n}{Lslab}
+         
+         \PY{c+c1}{\PYZsh{} with only dip\PYZhy{}dep etaslab infront (lengthscale is fixed)}
+         \PY{n}{gamma} \PY{o}{=} \PY{n}{etaslabmax}\PY{o}{/}\PY{n}{etaslabm}
+         \PY{n}{lo2} \PY{o}{=} \PY{p}{(}\PY{n}{gamma}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{wcrt}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{/}\PY{l+m+mi}{9}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{6}\PY{p}{)}
+         \PY{n}{lb2} \PY{o}{=} \PY{n}{A}\PY{o}{*}\PY{n}{lo2} \PY{o}{+} \PY{n}{B}\PY{o}{*}\PY{n}{Lslab}
+         
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{Lslab}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}L\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s1}{\PYZdl{} (km)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{lb}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full Dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{lb2}\PY{o}{/}\PY{l+m+mi}{1000}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Only \PYZdl{}L\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s2}{\PYZdl{} is dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}l\PYZus{}b\PYZdl{} (km)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{etaslab1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogy}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{gamma1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dip}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{gamma = }\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s1}{/}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}}\PY{l+s+s1}{\PYZob{}}\PY{l+s+s1}{s\PYZhy{}mantle\PYZcb{}\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    So, from the plots above, we see that: 
+    \begin{itemize}
+    \item \(L_{slab}\) decreases with increasing dip (this is just space in upper mantle. 
+    \item  \(\eta_{slab}\) decreases with increasing dip (by several orders of magnitude, as defined by x) 
+\item  \(\gamma\) decreases with increasing dip (by several
+orders of magnitude) 
+\item  \(l_b\) provides a bending radius in the range of 500-1000 km.This value can depend on dip through both \(\gamma\) and
+the dip-dependence of the length. 
+\begin{itemize}
+\item If only the length-dependence is included, then the bending radius range is smaller (800-1000 km; larger
+values), which will lead to lower bending forces at steeper dips. 
+\item  However, if \(l_b\) also includes a decrease in \(\eta_{slab}\) for
+steeper dips, then the bending radius is smaller, which will lead to larger bending forces.
+\end{itemize}
+\end{itemize}
+
+    \hypertarget{comparison-depending-on-various-choices}{%
+\subsection{Comparison Depending on Various
+Choices}\label{comparison-depending-on-various-choices}}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{c+c1}{\PYZsh{} sinking velocity of the slab}
+         \PY{n}{vsink} \PY{o}{=} \PY{l+m+mi}{5}\PY{o}{/}\PY{l+m+mi}{100}\PY{o}{/}\PY{n}{sec2yr} 
+         \PY{c+c1}{\PYZsh{} with dip\PYZhy{}dep etaslab and lb.}
+         \PY{n}{F2} \PY{o}{=} \PY{n}{etaslab1}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lb}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+         \PY{c+c1}{\PYZsh{} with only dip\PYZhy{}dep etaslab in lb.}
+         \PY{n}{F21} \PY{o}{=} \PY{n}{etaslabmax}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lb}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+         
+         \PY{c+c1}{\PYZsh{} with only dip\PYZhy{}dep etaslab (lengthscale is fixed)}
+         \PY{n}{F22} \PY{o}{=} \PY{n}{etaslab1}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lb2}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+         \PY{c+c1}{\PYZsh{} Still depends on dip through Lslab \PYZhy{} jsut the length of slab.}
+         \PY{n}{F3} \PY{o}{=} \PY{n}{etaslabmax}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lb2}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+         
+         \PY{c+c1}{\PYZsh{} Compare to model in which the bending length is fixed at a much smaller value.}
+         \PY{n}{lfix} \PY{o}{=} \PY{l+m+mf}{500e3}\PY{p}{;}
+         \PY{n}{F4} \PY{o}{=} \PY{n}{etaslab1}\PY{o}{*}\PY{n}{wslab}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}\PY{o}{*}\PY{n}{vsink}\PY{o}{/}\PY{n}{lfix}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{3}
+         
+         \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogx}\PY{p}{(}\PY{n}{gamma1}\PY{p}{,}\PY{n}{F2}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full Dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogx}\PY{p}{(}\PY{n}{gamma1}\PY{p}{,}\PY{n}{F21}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Only \PYZdl{}l\PYZus{}}\PY{l+s+si}{\PYZob{}b\PYZcb{}}\PY{l+s+s2}{\PYZdl{} is dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogx}\PY{p}{(}\PY{n}{gamma1}\PY{p}{,}\PY{n}{F22}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Only \PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}bend\PYZcb{}}\PY{l+s+s2}{\PYZdl{} is dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogx}\PY{p}{(}\PY{n}{gamma1}\PY{p}{,}\PY{n}{F3}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Just length dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{semilogx}\PY{p}{(}\PY{n}{gamma1}\PY{p}{,}\PY{n}{F4}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fixed bending length (500 km)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}slab\PYZcb{}}\PY{l+s+s1}{/}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{eta\PYZus{}m\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Force (x1e13 N/m)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Internal Deformation Force (Ribe, 2010)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+         
+         \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{F2}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Full Dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{F21}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Only \PYZdl{}l\PYZus{}}\PY{l+s+si}{\PYZob{}b\PYZcb{}}\PY{l+s+s2}{\PYZdl{} is dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{F22}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Only \PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{eta\PYZus{}}\PY{l+s+si}{\PYZob{}bend\PYZcb{}}\PY{l+s+s2}{\PYZdl{} is dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{F3}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Just length dip\PYZhy{}dep}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{dip}\PY{p}{,}\PY{n}{F4}\PY{o}{/}\PY{l+m+mf}{1e13}\PY{p}{,}\PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Fixed bending length (500 km)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}Dip\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Force (x1e13 N/m)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Plate Bending Force}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{on}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+
+\begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}24}]:} <matplotlib.legend.Legend at 0x10d8b24a8>
+\end{Verbatim}
+            
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+So, what we see is that: 
+\begin{enumerate} 
+\item With only the length depending on dip, the
+force increases over a small range as the bending radius (slab length)
+decreases. 
+\item  When only \(l_b\) depends on dip, then the force increases
+a lot at large dip because the effective bending radius decreases more
+(this is the gamma dependence of \(l_o\) 
+\item  When the viscosity of the
+slab is allowed to decrease at larger dip, this causes the bending force
+to decrease, effectively countering any effect of a shorter bending
+radius. 
+\item  Finally, then allowing both \(l_b\) and \(\eta_{slab}\) in
+the force equation to be dip dependent, we predicut a maximum bending
+force of about 0.15e13 N/m at dips of about 50 degrees. The bending
+force is smaller at lower dip because the effective bending radius is
+smaller. The bending force is smaller at large dips, because the
+effective slab viscosity is lower.
+\end{enumerate}
+
+Compare this behavior to the force predicted for a model with a fixed,
+smaller bending lengthscale (500 km). In this case, the bending force is
+dominated by the effective viscosity. As the bending viscosity drops at
+larger dips, the bending force also drops.
+
+
+    % Add a bibliography block to the postdoc
+  %%%%%%%%%%%%%%
+\bibliographystyle{elsarticle-harv.bst}
+\bibliography{/Users/billen/Library/texmf/bibtex/myref}
+%%%%%%%%%%%%%%
+
+    
+    
+    
+    \end{document}
